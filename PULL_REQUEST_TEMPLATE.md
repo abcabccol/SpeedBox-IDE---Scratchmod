@@ -1,15 +1,39 @@
-### Expected Behavior
+### Resolves
 
-_Please describe what should happen_
+_What Github issue does this resolve (please include link)?_
 
-### Actual Behavior
+- Resolves #
 
-_Describe what actually happens_
+### Proposed Changes
 
-### Steps to Reproduce
+_Describe what this Pull Request does_
 
-_Explain what someone needs to do in order to see what's described in *Actual behavior* above_
+### Reason for Changes
 
-### Operating System and Browser
+_Explain why these changes should be made_
 
-_e.g. Mac OS 10.11.6 Safari 10.0_
+### Test Coverage
+
+_Please show how you have added tests to cover your changes_
+
+### Browser Coverage
+Check the OS/browser combinations tested (At least 2)
+
+Mac
+ * [ ] Chrome 
+ * [ ] Firefox 
+ * [ ] Safari
+ 
+Windows
+ * [ ] Chrome 
+ * [ ] Firefox 
+ * [ ] Edge
+ 
+Chromebook
+ * [ ] Chrome
+ 
+iPad
+* [ ] Safari
+
+Android Tablet
+* [ ] Chrome
