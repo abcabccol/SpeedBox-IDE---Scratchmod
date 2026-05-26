@@ -1,0 +1,206 @@
+/**
+ * Speedbox Error Handler Styles
+ * Error UI and recovery animations
+ */
+
+#speedbox-error-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: speedbox-fade-in 0.3s ease-in-out;
+    backdrop-filter: blur(4px);
+}
+
+@keyframes speedbox-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.speedbox-error-container {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(220, 20, 60, 0.3);
+    border: 3px solid #DC143C;
+    animation: speedbox-slide-up 0.4s ease-out;
+}
+
+@keyframes speedbox-slide-up {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.speedbox-error-content {
+    text-align: center;
+}
+
+.speedbox-error-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    display: block;
+    animation: speedbox-bounce 1s ease-in-out infinite;
+}
+
+@keyframes speedbox-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.speedbox-error-container h1 {
+    color: #DC143C;
+    margin: 1rem 0 0.5rem;
+    font-size: 1.8rem;
+    font-family: 'Scratch', sans-serif;
+}
+
+.speedbox-error-container p {
+    color: #333;
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+}
+
+.speedbox-error-status {
+    color: #8B0000 !important;
+    font-weight: 600;
+    animation: speedbox-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes speedbox-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.speedbox-error-actions {
+    display: flex;
+    gap: 1rem;
+    margin: 1.5rem 0 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.speedbox-btn-retry,
+.speedbox-btn-dismiss {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+    min-width: 120px;
+}
+
+.speedbox-btn-retry {
+    background-color: #DC143C;
+    color: white;
+    border: 2px solid #DC143C;
+}
+
+.speedbox-btn-retry:hover {
+    background-color: #FF6347;
+    border-color: #FF6347;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 20, 60, 0.3);
+}
+
+.speedbox-btn-retry:active {
+    background-color: #8B0000;
+    transform: translateY(0);
+}
+
+.speedbox-btn-dismiss {
+    background-color: #F5F5F5;
+    color: #333;
+    border: 2px solid #DDD;
+}
+
+.speedbox-btn-dismiss:hover {
+    background-color: #EEE;
+    border-color: #DC143C;
+}
+
+.speedbox-error-details {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #EEE;
+    color: #999;
+    font-size: 0.85rem;
+}
+
+#speedbox-countdown {
+    color: #DC143C;
+    font-weight: bold;
+}
+
+#speedbox-network-error {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    animation: speedbox-slide-down 0.3s ease-out;
+}
+
+@keyframes speedbox-slide-down {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+.speedbox-network-error-banner {
+    background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%);
+    color: white;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.speedbox-network-error-icon {
+    font-size: 1.2rem;
+    animation: speedbox-pulse-icon 1.5s ease-in-out infinite;
+}
+
+@keyframes speedbox-pulse-icon {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+}
+
+@media (max-width: 600px) {
+    .speedbox-error-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    .speedbox-error-container h1 {
+        font-size: 1.5rem;
+    }
+
+    .speedbox-error-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .speedbox-btn-retry,
+    .speedbox-btn-dismiss {
+        width: 100%;
+    }
+}
