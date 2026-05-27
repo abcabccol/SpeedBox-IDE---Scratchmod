@@ -1,0 +1,197 @@
+/**
+ * Speedbox Red Theme CSS
+ * Comprehensive red color scheme for the entire IDE
+ */
+
+:root {
+    --speedbox-primary: #DC143C;
+    --speedbox-primary-light: #FF6B7A;
+    --speedbox-primary-dark: #8B0000;
+    --speedbox-secondary: #FF4444;
+    --speedbox-accent: #FF6666;
+    --speedbox-background: #FFEBEE;
+    --speedbox-success: #FF5555;
+    --speedbox-error: #8B0000;
+    --speedbox-warning: #FF7777;
+    --speedbox-info: #FF6B6B;
+}
+
+/* Global Theme Overrides */
+body {
+    background-color: var(--speedbox-background);
+}
+
+/* Navigation & Header */
+nav, header, .navbar, .header {
+    background: linear-gradient(135deg, var(--speedbox-primary) 0%, var(--speedbox-secondary) 100%) !important;
+    color: white !important;
+}
+
+nav a, nav button, header a, header button {
+    color: white !important;
+}
+
+nav a:hover, nav button:hover {
+    background-color: var(--speedbox-primary-dark) !important;
+    color: white !important;
+}
+
+/* Buttons */
+button, .btn, [role="button"] {
+    background-color: var(--speedbox-primary) !important;
+    color: white !important;
+    border: 2px solid var(--speedbox-primary) !important;
+}
+
+button:hover, .btn:hover, [role="button"]:hover {
+    background-color: var(--speedbox-secondary) !important;
+    border-color: var(--speedbox-secondary) !important;
+}
+
+button:active, .btn:active, [role="button"]:active {
+    background-color: var(--speedbox-primary-dark) !important;
+    border-color: var(--speedbox-primary-dark) !important;
+}
+
+/* Category Colors in Blocks */
+.category-motion, [class*="motion"] {
+    background-color: var(--speedbox-primary) !important;
+}
+
+.category-looks, [class*="looks"] {
+    background-color: var(--speedbox-primary-light) !important;
+}
+
+.category-sound, [class*="sound"] {
+    background-color: var(--speedbox-secondary) !important;
+}
+
+.category-events, [class*="events"] {
+    background-color: var(--speedbox-accent) !important;
+}
+
+.category-control, [class*="control"] {
+    background-color: var(--speedbox-secondary) !important;
+}
+
+/* Links */
+a, .link {
+    color: var(--speedbox-primary) !important;
+}
+
+a:hover, .link:hover {
+    color: var(--speedbox-primary-dark) !important;
+    text-decoration: underline;
+}
+
+/* Forms */
+input:focus, textarea:focus, select:focus {
+    border-color: var(--speedbox-primary) !important;
+    box-shadow: 0 0 5px var(--speedbox-primary) !important;
+}
+
+input[type="checkbox"]:checked, input[type="radio"]:checked {
+    accent-color: var(--speedbox-primary) !important;
+}
+
+/* Cards & Panels */
+.card, .panel, [class*="panel"] {
+    border-left: 4px solid var(--speedbox-primary) !important;
+}
+
+/* Alerts & Messages */
+.alert, .alert-error, [class*="error"] {
+    background-color: #FFE6E6 !important;
+    border: 2px solid var(--speedbox-primary) !important;
+    color: var(--speedbox-primary-dark) !important;
+}
+
+.alert-success, [class*="success"] {
+    background-color: #FFE6E6 !important;
+    border: 2px solid var(--speedbox-success) !important;
+}
+
+.alert-warning, [class*="warning"] {
+    background-color: #FFF5E6 !important;
+    border: 2px solid var(--speedbox-warning) !important;
+}
+
+.alert-info, [class*="info"] {
+    background-color: #FFE6F0 !important;
+    border: 2px solid var(--speedbox-info) !important;
+}
+
+/* Modals & Overlays */
+.modal, [class*="modal"] {
+    border: 3px solid var(--speedbox-primary) !important;
+    box-shadow: 0 4px 20px rgba(220, 20, 60, 0.3) !important;
+}
+
+.modal-header, [class*="modal-header"] {
+    background: linear-gradient(135deg, var(--speedbox-primary) 0%, var(--speedbox-secondary) 100%) !important;
+    color: white !important;
+}
+
+/* Active/Selected States */
+.active, [class*="active"], .selected, [class*="selected"] {
+    background-color: var(--speedbox-primary) !important;
+    color: white !important;
+}
+
+/* Badges & Tags */
+.badge, .tag, [class*="badge"] {
+    background-color: var(--speedbox-primary) !important;
+    color: white !important;
+}
+
+/* Progress Bars */
+.progress-bar, [class*="progress-bar"] {
+    background-color: var(--speedbox-primary) !important;
+}
+
+/* Dropdown & Menu Items */
+.dropdown-item:hover, [class*="dropdown-item"]:hover {
+    background-color: var(--speedbox-background) !important;
+    color: var(--speedbox-primary) !important;
+}
+
+/* Tabs */
+.nav-tabs .nav-link.active, [class*="tab"].active {
+    border-color: var(--speedbox-primary) !important;
+    color: var(--speedbox-primary) !important;
+}
+
+/* Dividers */
+hr, .divider {
+    border-color: var(--speedbox-primary) !important;
+}
+
+/* Scrollbar Styling (WebKit browsers) */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--speedbox-background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--speedbox-primary);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--speedbox-secondary);
+}
+
+/* Selection Color */
+::selection {
+    background-color: var(--speedbox-primary);
+    color: white;
+}
+
+::-moz-selection {
+    background-color: var(--speedbox-primary);
+    color: white;
+}
