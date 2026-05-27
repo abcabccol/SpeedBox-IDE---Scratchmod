@@ -1,286 +1,358 @@
-//* CODES WRİTED BY SCRATCH FOUNDATİON, MIT. https//:github.com/ScratchFoundation   
-```
-Copyright (c) 2016, Massachusetts Institute of Technology
-All rights reserved.
+# scratch-www
+#### Standalone web client for Scratch
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+[![Build Status](https://travis-ci.org/LLK/scratch-www.svg)](https://travis-ci.org/LLK/scratch-www)
+[![Coverage Status](https://coveralls.io/repos/github/LLK/scratch-www/badge.svg?branch=develop)](https://coveralls.io/github/LLK/scratch-www?branch=develop)
+[![Greenkeeper badge](https://badges.greenkeeper.io/LLK/scratch-www.svg)](https://greenkeeper.io/)
 
-1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+## Overview
 
-2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+This is Scratch’s open source web client! This is the code for much of the [Scratch website](https://scratch.mit.edu).
 
-3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+In particular, this codebase includes code for:
+* the "project page", which shows a playable version of the project, along with the project's title, description, comments, remixes and studios; this page operates in the background when you "See inside" a project
+* the site's home page
+* the Ideas page
+* landing pages for various Scratch extensions, such as LEGO MINDSTORMS and micro:bit
+* the info page for Scratch Desktop
+* and other pages such as Credits and FAQ.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-```
+### How this fits in with other Scratch repos
 
-src/lib/default-project/dango.svg is based on [Twemoji](https://twemoji.twitter.com/) and is licensed under CC BY 4.0 https://creativecommons.org/licenses/by/4.0/
+The scratch-www project has lots of aspects of its design that are particular to our backend systems.
+To use it for your own project, you would have to look at all the places it makes backend calls, and
+create your own backend systems to perform those functions.
 
-<!--
+The [scratch-gui](https://github.com/scratchfoundation/scratch-editor/tree/develop/packages/scratch-gui) project, on the other hand, is designed to be
+able to be used by anyone, without needing to create backend systems, though it also can support
+backend systems for project and asset saving.
 
-# scratch-gui
-#### Scratch GUI is a set of React components that comprise the interface for creating and running Scratch 3.0 projects
+### Contributing
 
-## Installation
-This requires you to have Git and Node.js installed.
+We welcome your contributions to this codebase! You may want to start by browsing [the current
+list of open issues labeled "help wanted"](https://github.com/scratchfoundation/scratch-www/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22).
 
-In your own node environment/application:
+Contributing to scratch-www can be more difficult than contributing to
+[scratch-gui](https://github.com/scratchfoundation/scratch-editor/tree/develop/packages/scratch-gui). This is because scratch-gui can be run on its
+own, without needing any other services to be running, while scratch-www needs to communicate
+with several backend systems that the Scratch team runs (see "How this fits in with other Scratch
+repos" above). If you are new to contributing to Scratch's source code, we suggest you start
+by becoming familiar with scratch-gui and its [list of open issues labeled "help
+wanted"](https://github.com/scratchfoundation/scratch-editor/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22).
+
+To contribute, please follow the [standard steps for contributing to a project on
+GitHub](https://github.com/firstcontributions/first-contributions).
+
+### License
+
+See the [LICENSE](https://github.com/scratchfoundation/scratch-www/blob/master/LICENSE) file in this repo.
+
+## Understanding this codebase
+
+### Guides
+
+Here are some resources to help you get acquainted with how we’re working on the Scratch codebase:
+
+* [Contributor Guidelines](https://github.com/scratchfoundation/scratch-www/blob/develop/.github/CONTRIBUTING.md)
+* [Style Guide](https://github.com/scratchfoundation/scratch-www/wiki/Style-Guide)
+* [Testing Guide](https://github.com/scratchfoundation/scratch-www/wiki/Testing-Guide-for-Bugfixes)
+* [Localization Guide](https://github.com/scratchfoundation/scratch-www/wiki/Localization-Guide)
+* [Map of the repository](https://github.com/scratchfoundation/scratch-www/wiki/Repo-Map)
+
+### Core technologies
+
+Significant core technologies this codebase uses include:
+
+#### Development technologies
+
+* [Node](https://nodejs.org/)
+* [Webpack](https://webpack.js.org/)
+* [React](https://facebook.github.io/react/)
+* [Redux](https://redux.js.org/)
+* [Sass](http://sass-lang.com/documentation/file.SASS_REFERENCE.html)
+
+#### Testing technologies
+
+Our tests use:
+
+* [Jest](https://jestjs.io/) (we are writing most new tests in Jest)
+* [Tap](https://node-tap.org/) (we are moving away from using Tap, but many tests still use it)
+* [Enzyme](https://airbnb.io/enzyme/)
+* [Selenium](https://selenium.dev/)
+
+## Developing scratch-www
+
+### Before Getting Started
+
+Make sure you have installed:
+* [node](https://docs.npmjs.com/getting-started/installing-node): version 16
+* npm (Node Package Manager): used to maintain and update packages required to build the site
+
+### Update Packages
+
+It's important to make sure that all of the dependencies are up to date because the
+scratch-www code only works with specific versions of the dependencies.
+You can update the packages by using the command:
+
 ```bash
-npm install https://github.com/LLK/scratch-gui.git
-```
-If you want to edit/play yourself:
-```bash
-git clone https://github.com/LLK/scratch-gui.git
-cd scratch-gui
 npm install
 ```
 
-**You may want to add `--depth=1` to the `git clone` command because there are some [large files in the git repository history](https://github.com/LLK/scratch-gui/issues/5140).**
+#### Warnings during npm install
 
-## Getting started
-Running the project requires Node.js to be installed.
-
-## Running
-Open a Command Prompt or Terminal in the repository and run:
-```bash
-npm start
-```
-Then go to [http://localhost:8601/](http://localhost:8601/) - the playground outputs the default GUI component
-
-## Developing alongside other Scratch repositories
-
-### Getting another repo to point to this code
-
-
-If you wish to develop `scratch-gui` alongside other scratch repositories that depend on it, you may wish
-to have the other repositories use your local `scratch-gui` build instead of fetching the current production
-version of the scratch-gui that is found by default using `npm install`.
-
-Here's how to link your local `scratch-gui` code to another project's `node_modules/scratch-gui`.
-
-#### Configuration
-
-1. In your local `scratch-gui` repository's top level:
-    1. Make sure you have run `npm install`
-    2. Build the `dist` directory by running `BUILD_MODE=dist npm run build`
-    3. Establish a link to this repository by running `npm link`
-
-2. From the top level of each repository (such as `scratch-www`) that depends on `scratch-gui`:
-    1. Make sure you have run `npm install`
-    2. Run `npm link scratch-gui`
-    3. Build or run the repository
-
-#### Using `npm run watch`
-
-Instead of `BUILD_MODE=dist npm run build`, you can use `BUILD_MODE=dist npm run watch` instead. This will watch for changes to your `scratch-gui` code, and automatically rebuild when there are changes. Sometimes this has been unreliable; if you are having problems, try going back to `BUILD_MODE=dist npm run build` until you resolve them.
-
-#### Oh no! It didn't work!
-
-If you can't get linking to work right, try:
-* Follow the recipe above step by step and don't change the order. It is especially important to run `npm install` _before_ `npm link` as installing after the linking will reset the linking.
-* Make sure the repositories are siblings on your machine's file tree, like `.../.../MY_SCRATCH_DEV_DIRECTORY/scratch-gui/` and `.../.../MY_SCRATCH_DEV_DIRECTORY/scratch-www/`.
-* Consistent node.js version: If you have multiple Terminal tabs or windows open for the different Scratch repositories, make sure to use the same node version in all of them.
-* If nothing else works, unlink the repositories by running `npm unlink` in both, and start over.
-
-## Testing
-### Documentation
-
-You may want to review the documentation for [Jest](https://facebook.github.io/jest/docs/en/api.html) and [Enzyme](http://airbnb.io/enzyme/docs/api/) as you write your tests.
-
-See [jest cli docs](https://facebook.github.io/jest/docs/en/cli.html#content) for more options.
-
-### Running tests
-
-*NOTE: If you're a Windows user, please run these scripts in Windows `cmd.exe`  instead of Git Bash/MINGW64.*
-
-Before running any tests, make sure you have run `npm install` from this (scratch-gui) repository's top level.
-
-#### Main testing command
-
-To run linter, unit tests, build, and integration tests, all at once:
-```bash
-npm test
-```
-
-#### Running unit tests
-
-To run unit tests in isolation:
-```bash
-npm run test:unit
-```
-
-To run unit tests in watch mode (watches for code changes and continuously runs tests):
-```bash
-npm run test:unit -- --watch
-```
-
-You can run a single file of integration tests (in this example, the `button` tests):
+These warnings can be safely ignored:
 
 ```bash
-$(npm bin)/jest --runInBand test/unit/components/button.test.jsx
+npm WARN react-modal@0.6.1 requires a peer of react@^0.14.0 but none was installed.
+npm WARN react-redux@4.4.0 requires a peer of react@^0.14.0 but none was installed.
+npm WARN react-redux@4.4.0 requires a peer of redux@^2.0.0 || ^3.0.0 but none was installed.
+npm WARN react-addons-test-utils@0.14.7 requires a peer of react@^0.14.7 but none was installed.
+npm WARN react-dom@0.14.8 requires a peer of react@^0.14.8 but none was installed.
 ```
 
-#### Running integration tests
+These currently exist in static/js/lib .
 
-Integration tests use a headless browser to manipulate the actual HTML and javascript that the repo
-produces. You will not see this activity (though you can hear it when sounds are played!).
+### To Build
 
-Note that integration tests require you to first create a build that can be loaded in a browser:
+To compile the source code into HTML and JavaScript bundles browsers can read, you can create
+a temporary version of the site on your machine that you can access through your web browser.
+
+You can either "build" the site a single time, by running:
 
 ```bash
 npm run build
 ```
 
-Then, you can run all integration tests:
+Or, you can run a server that rebuilds the files as you edit them, by running the commands:
 
 ```bash
-npm run test:integration
+npm run translate
+npm start
 ```
 
-Or, you can run a single file of integration tests (in this example, the `backpack` tests):
+*NOTE: `npm run translate` builds the intl directory. The site will build fine without it,
+but translatable text strings will not show up correctly until you have built intl.*
+
+During development, `npm start` watches any update you make to files in either
+`./static` or `./src` and triggers a rebuild of the project.  In development,
+the build is stored in memory, and not served from the `./build` directory.
+
+### Viewing the local site
+
+Once you have built the local site, using either `npm run build` or `npm start`,
+the site hosted on your local machine can be accessed by a web browser by entering
+`localhost:8333` into your browser's address bar.
+
+### Troubleshooting
+
+When running `npm start`, here are some important log messages to keep an eye out for:
+* `webpack: bundle is now VALID.` – The bundle has been loaded into memory and is now viewable in the browser. This will show up both once `npm start` has completed its setup, and also once updates you make to files have been re-compiled for viewing in the browser.
+* `webpack: bundle is now INVALID.` – If you see this, then it means you have made updates to files that are still being compiled for browser viewing. Pages will still be viewable, but they will not see any updates you made yet.
+
+### To stop npm
+
+To stop the `npm start` process which is making the site available to your web browser
+(created above in "To Build"), use `^C` (control-c) in the terminal.
+
+#### Configuration
+
+`npm start` can be configured with the following environment variables, by setting them in
+the beginning of the command, before `npm start`:
+
+| Variable        | Default                            | Description                                    |
+| --------------- | ---------------------------------- | ---------------------------------------------- |
+| `API_HOST`      | `https://api.scratch.mit.edu`      | Hostname for API requests                      |
+| `ASSET_HOST`    | `https://assets.scratch.mit.edu`   | Hostname for asset requests                    |
+| `BACKPACK_HOST` | `https://backpack.scratch.mit.edu` | Hostname for backpack requests                 |
+| `PROJECT_HOST`  | `https://projects.scratch.mit.edu` | Hostname for project requests                  |
+| `FALLBACK`      | `''`                               | Pass-through location for old site             |
+| `THUMBNAIL_URI` | `/internalapi/project/thumbnail/{}/set/`| URI template for updating project thumbnails, `{}` is replaced by the project ID when invoking a request |
+| `THUMBNAIL_HOST` | `''` | Hostname for uploader service|
+| `GTM_ID`        | `''`                               | Google Tag Manager ID                          |
+| `GTM_ENV_AUTH`  | `''`                               | Google Tag Manager env and auth info           |
+| `NODE_ENV`      | `null`                             | If not `production`, app acts like development |
+| `PORT`          | `8333`                             | Port for devserver (http://localhost:XXXX)     |
+
+*NOTE: Because by default `API_HOST=https://api.scratch.mit.edu`, please be aware that, by default, you will be seeing and interacting with real data on the Scratch website.*
+
+## Tests
+
+### Unit tests
+
+Most of our unit tests run using Jest, but older unit tests use the TAP framework.
+
+#### Run all tests
+
+To build the application and run all unit and localization tests, use the command:
 
 ```bash
-$(npm bin)/jest --runInBand test/integration/backpack.test.js
+npm test
 ```
 
-If you want to watch the browser as it runs the test, rather than running headless, use:
+#### Run one test
+
+To run a single unit test file from the command-line using Jest, use the command:
 
 ```bash
-USE_HEADLESS=no $(npm bin)/jest --runInBand test/integration/backpack.test.js
+node_modules/.bin/jest ./test/unit/PATH/TO/FILENAME.test.js
 ```
 
-_Note: If you are seeing failed tests related to `chromedriver` being incompatible with your version of Chrome, you may need to update `chromedriver` with:_
+*NOTE: replace `PATH/TO/FILENAME` with the actual path to the file you wish to run.*
+
+### Integration tests
+
+Our integration tests assume that a larger environment is running than just scratch-www
+on its own; for instance, many require that a test user be able to log in to the site,
+which requires backend and database support.
+
+By default, tests run against our Staging instance, but you can pass in a different
+location with the ROOT_URL environment variable (see below) if you want to run the
+tests against another location--for instance, your local build.
+
+All of our integration tests use Jest as our testing framework.
+
+#### Running the tests
+
+To run all integration tests from the command-line:
 
 ```bash
-npm install chromedriver@{version}
+SMOKE_USERNAME=username SMOKE_PASSWORD=password ROOT_URL=https://scratch.mit.edu UNOWNED_SHARED_PROJECT_ID=# UNOWNED_UNSHARED_PROJECT_ID=# OWNED_SHARED_PROJECT_ID=# OWNED_UNSHARED_PROJECT_ID=# npm run test:integration
 ```
 
-## Troubleshooting
 
-### Ignoring optional dependencies
+#### Usernames/Password for the tests
 
-When running `npm install`, you can get warnings about optional dependencies:
+The tests use multiple users with similar usernames and the same password.  They use the the username you pass in with SMOKE_USERNAME as well as the same username with a 1, 2, 3, 4, 5, and 6 (soon to be higher numbers as well) appended to the end of it.  So if you use the username "test" it will also use the username "test1", "test2", "test3", etc.  Make sure you have created accounts with this pattern and use the same password for all accounts involved.
 
-```
-npm WARN optional Skipping failed optional dependency /chokidar/fsevents:
-npm WARN notsup Not compatible with your operating system or architecture: fsevents@1.2.7
-```
+You can use any set of usernames that fit this pattern.  Each account needs to share the same password, which is passed in as SMOKE_PASSWORD.
 
-You can suppress them by adding the `no-optional` switch:
+#### Environment Variables
+Several environment variables need to be passed in for the tests to run.  Most of them have defaults that point to the staging server.
 
-```
-npm install --no-optional
-```
+ * SMOKE_USERNAME             -   Root username used for tests that sign in. See the Usernames section above
+ * SMOKE_PASSWORD             -   Password for all accounts used in the tests
+ * UNOWNED_SHARED_PROJECT_ID  -   ID for a shared project owned by [testuser]2 This project should have at least one remix.  Remix it with another of the [testuser] accounts. Used in the project-page tests.
+ * OWNED_SHARED_PROJECT_ID    -   ID for a shared project owned by [testuser]6.  Used in the project-page tests.
+ * UNOWNED_UNSHARED_PROJECT_ID  - ID for an unshared project owned by [testuser]2.  It is used in tests where it is opened by [testuser]6 in the project-page tests.
+ * OWNED_UNSHARED_PROJECT_ID  -   ID for an unshared project owned by [testuser]6.  It will be opened by its owner in the project-page tests.
+ * UNOWNED_SHARED_SCRATCH2_PROJECT_ID - ID for a shared scratch2 project owned by [testuser]2.  It will be opened by [testuser]6.
+ * OWNED_UNSHARED_SCRATCH2_PROJECT_ID - ID for an unshared scratch2 project owned by [testuser]6.  It will be opened by [testuser]6.
+ * SAUCE_USERNAME             -   Username for a saucelabs account.  Only used when running tests remotely with test:integration:remote
+ * SAUCE_ACCESS_KEY           -   Access token used by the saucelabs account included. Only used when running tests remotely with test:integration:remote
+ * SMOKE_REMOTE               -   Boolean to set whether to use saucelabs to run tests remotely.  Set to true automatically when running tests with test:integration:remote, otherwise defaults to false.
+ * RATE_LIMIT_CHECK           -   A URL that triggers clearing the studio creation rate limit for very specific accounts. This is needed for the my-stuff tests to test studio creation, ensuring they run the same every time.  This needs to be setup separately.
 
-Further reading: [Stack Overflow](https://stackoverflow.com/questions/36725181/not-compatible-with-your-operating-system-or-architecture-fsevents1-0-11)
+### Run a single test file
+To run a single file from the command-line using Jest:
 
-### Resolving dependencies
-
-When installing for the first time, you can get warnings that need to be resolved:
-
-```
-npm WARN eslint-config-scratch@5.0.0 requires a peer of babel-eslint@^8.0.1 but none was installed.
-npm WARN eslint-config-scratch@5.0.0 requires a peer of eslint@^4.0 but none was installed.
-npm WARN scratch-paint@0.2.0-prerelease.20190318170811 requires a peer of react-intl-redux@^0.7 but none was installed.
-npm WARN scratch-paint@0.2.0-prerelease.20190318170811 requires a peer of react-responsive@^4 but none was installed.
-```
-
-You can check which versions are available:
-
-```
-npm view react-intl-redux@0.* version
+```bash
+SMOKE_USERNAME=username SMOKE_PASSWORD=password ROOT_URL=https://scratch.mit.edu node_modules/.bin/jest ./test/integration/filename.test.js
 ```
 
-You will need to install the required version:
+To run a single file from the command-line using TAP:
 
-```
-npm install  --no-optional --save-dev react-intl-redux@^0.7
-```
-
-The dependency itself might have more missing dependencies, which will show up like this:
-
-```
-user@machine:~/sources/scratch/scratch-gui (491-translatable-library-objects)$ npm install  --no-optional --save-dev react-intl-redux@^0.7
-scratch-gui@0.1.0 /media/cuideigin/Linux/sources/scratch/scratch-gui
-├── react-intl-redux@0.7.0
-└── UNMET PEER DEPENDENCY react-responsive@5.0.0
+```bash
+SMOKE_USERNAME=username SMOKE_PASSWORD=password ROOT_URL=https://scratch.mit.edu node_modules/.bin/tap ./test/integration-legacy/smoke-testing/filename.js -R classic --no-coverage --timeout=3600
 ```
 
-You will need to install those as well:
+* the `-R classic` makes tap use the old reporting style, which avoids an error with the "nyc" package
+* `--no-coverage` is because we do not use the coverage-tracking feature of tap
+* the `timeout` argument is for the length of the entire tap test-suite; if you are getting a timeout error, you may need to adjust this value (some of the Selenium tests take a while to run)
 
+#### Running Remote tests
+
+Integration tests can be run using Saucelabs, an online service that can test multiple
+browser/OS combinations remotely. (Currently, all tests are written for use for Chrome on Mac).
+
+You will need a Saucelabs account in order to use it for testing. If you have one, you can
+find your Access Key:
+1. click your username
+1. select "User Settings" from the dropdown menu
+1. near the bottom of the page is your access key
+
+To run tests using Saucelabs, run the command:
+
+```bash
+SMOKE_USERNAME=username SMOKE_PASSWORD=password SAUCE_USERNAME=saucelabsUsername SAUCE_ACCESS_KEY=saucelabsAccessKey ROOT_URL=https://scratch.mit.edu npm run test:integration:remote
 ```
-npm install  --no-optional --save-dev react-responsive@^5.0.0
+
+*NOTE: Currently Jest tests will not run with Saucelabs.*
+
+#### Configuration
+
+| Variable      		| Default               | Description                                 			    |
+| ---------------------	| --------------------- | --------------------------------------------------------- |
+| `ROOT_URL`			| `scratch.ly`			| Location you want to run the tests against                |
+| `SMOKE_USERNAME`    	| `None` 				| Username for Scratch user you're signing in with to test 	|
+| `SMOKE_PASSWORD`  	| `None`                | Password for Scratch user you're signing in with to test  |
+| `SMOKE_REMOTE`        | `false`               | Tests with Sauce Labs or not. True if running test:smoke:sauce |
+| `SMOKE_HEADLESS`      | `false`               | Run browser in headless mode. Flaky at the moment         |
+| `SAUCE_USERNAME`      | `None`                | Username for your Sauce Labs account                      |
+| `SAUCE_ACCESS_KEY`    | `None`                | Access Key for Sauce Labs found under User Settings       |
+
+## To Deploy
+
+Deploying to staging or production will upload code to S3 and configure Fastly.
+
+```bash
+npm install
+virtualenv ENV
+. ENV/bin/activate
+pip install -r requirements.txt
+npm run build && npm run deploy
 ```
 
-Further reading: [Stack Overflow](https://stackoverflow.com/questions/46602286/npm-requires-a-peer-of-but-all-peers-are-in-package-json-and-node-modules)
+| Variable                 | Default | Description                                      |
+| ------------------------ | ------- | ------------------------------------------------ |
+| `FASTLY_SERVICE_ID`      | `''`    | Fastly service ID for `bin/configure-fastly.js`  |
+| `FASTLY_API_KEY`         | `''`    | Fastly API key for `bin/configure-fastly.js`     |
+| `FASTLY_ACTIVATE_CHANGES`| `false` | Activate changes and purge all after configuring |
+| `AWS_ACCESS_KEY_ID`      | `''`    | AWS access key id for S3                         |
+| `AWS_SECRET_ACCESS_KEY`  | `''`    | AWS secret access key for S3                     |
+| `S3_BUCKET_NAME`         | `''`    | S3 bucket name to deploy into                    |
 
-## Troubleshooting
+### Fastly deployment details
 
-If you run into npm install errors, try these steps:
-1. run `npm cache clean --force`
-2. Delete the node_modules directory
-3. Delete package-lock.json
-4. run `npm install` again
+When deploying, Fastly's API is used to clone the active VCL configuration, update just the
+relevant component with content from this repo's `routes.json` file, and activate the new VCL
+configuration.
 
-## Publishing to GitHub Pages
-You can publish the GUI to github.io so that others on the Internet can view it.
-[Read the wiki for a step-by-step guide.](https://github.com/LLK/scratch-gui/wiki/Publishing-to-GitHub-Pages)
+#### routes.json
 
-## Understanding the project state machine
+Much of the routes.json file is straightforward, but some fields are not obvious in their purpose.
 
-Since so much code throughout scratch-gui depends on the state of the project, which goes through many different phases of loading, displaying and saving, we created a "finite state machine" to make it clear which state it is in at any moment. This is contained in the file src/reducers/project-state.js .
+`routeAlias` helps us keep the overall length and complexity of the regex comparison code in
+Fastly from getting too large. There is one large regex which we have Fastly test the incoming
+request URL against to know if it can reply with a static file in S3; if no match is found, we
+assume we need to pass the request on to scratchr2. We could test every single route `pattern`
+regex in `routes.json`, but many are similar, so instead we just take the unique set of all
+`routeAlias` entries, which is shorter and quicker.
 
-It can be hard to understand the code in src/reducers/project-state.js . There are several types of data and functions used, which relate to each other:
+## Windows
 
-### Loading states
+For development on Windows, you will probably need to use a program that provides you a Unix interface.
 
-These include state constant strings like:
+There are several options for doing this:
 
-* `NOT_LOADED` (the default state),
-* `ERROR`,
-* `FETCHING_WITH_ID`,
-* `LOADING_VM_WITH_ID`,
-* `REMIXING`,
-* `SHOWING_WITH_ID`,
-* `SHOWING_WITHOUT_ID`,
-* etc.
+* Use the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10) to run Linux inside Windows
+* Use [Cygwin](https://www.cygwin.com/)
+* Use Wubi, a Windows Installer for Ubuntu that allows you to have Ubuntu and Windows on one disk, without the need of an extra partition. There is a [version for Windows XP, Vista, or 7](https://wiki.ubuntu.com/WubiGuide) and a [version for Windows 8 or higher](https://github.com/hakuna-m/wubiuefi).
 
-### Transitions
+In addition, you will need to install Node; [here are instructions for installing Node on WSL](https://docs.microsoft.com/en-us/windows/nodejs/setup-on-wsl2#install-nvm-nodejs-and-npm).
 
-These are names for the action which causes a state change. Some examples are:
+## Current issues with developing scratch-www
 
-* `START_FETCHING_NEW`,
-* `DONE_FETCHING_WITH_ID`,
-* `DONE_LOADING_VM_WITH_ID`,
-* `SET_PROJECT_ID`,
-* `START_AUTO_UPDATING`,
+We're currently in the process of transitioning into this web client from Scratch's existing structure. As we transition, there are going to be some issues along the way that relate to how this client needs to interact with the existing infrastructure to work properly in production.
 
-### How transitions relate to loading states
+### FALLBACK
 
-Like this diagram of the project state machine shows, various transition actions can move us from one loading state to another:
+On top of migrating to using this as our web client, Scratch is also transitioning into using a new API backend, Scratch REST API (closed-source). As that is also currently in development and incomplete, we are set up to fall back to using existing Scratch endpoints if an API endpoint does not exist – which is where the `FALLBACK` comes in.
 
-![Project state diagram](docs/project_state_diagram.svg)
+Most of the issues we have currently revolve around the use of `FALLBACK`. This variable is used to specify what URL to fall back onto should a request fail within the context of this web client, or when using the `API_HOST`. If not specified in the process, it will not be used, and any request that is not made through the web client or the API will be unreachable.
 
-_Note: for clarity, the diagram above excludes states and transitions relating to error handling._
+Setting `FALLBACK=https://scratch.mit.edu` allows the web client to retrieve data from the Scratch website in your development environment. However, because of security concerns, trying to send data to Scratch through your development environment won't work. This means the following things will be broken for the time being:
 
-#### Example
+* Login on the splash page (*In the process of being fixed*)
+* Some update attempts to production data made through a development version of the web client
 
-Here's an example of how states transition.
-
-Suppose a user clicks on a project, and the page starts to load with URL https://scratch.mit.edu/projects/123456 .
-
-Here's what will happen in the project state machine:
-
-![Project state example](docs/project_state_example.png)
-
-1. When the app first mounts, the project state is `NOT_LOADED`.
-2. The `SET_PROJECT_ID` redux action is dispatched (from src/lib/project-fetcher-hoc.jsx), with `projectId` set to `123456`. This transitions the state from `NOT_LOADED` to `FETCHING_WITH_ID`.
-3. The `FETCHING_WITH_ID` state. In src/lib/project-fetcher-hoc.jsx, the `projectId` value `123456` is used to request the data for that project from the server.
-4. When the server responds with the data, src/lib/project-fetcher-hoc.jsx dispatches the `DONE_FETCHING_WITH_ID` action, with `projectData` set. This transitions the state from `FETCHING_WITH_ID` to `LOADING_VM_WITH_ID`.
-5. The `LOADING_VM_WITH_ID` state. In src/lib/vm-manager-hoc.jsx, we load the `projectData` into Scratch's virtual machine ("the vm").
-6. When loading is done, src/lib/vm-manager-hoc.jsx dispatches the `DONE_LOADING_VM_WITH_ID` action. This transitions the state from `LOADING_VM_WITH_ID` to `SHOWING_WITH_ID`
-7. The `SHOWING_WITH_ID` state. Now the project appears normally and is playable and editable.
-
-## Donate
-We provide [Scratch](https://scratch.mit.edu) free of charge, and want to keep it that way! Please consider making a [donation](https://www.scratchfoundation.org/donate) to support our continued engineering, design, community, and resource development efforts. Donations of any size are appreciated. Thank you!
--->
+Additionally, if you set `FALLBACK=https://scratch.mit.edu`, be aware that clicking on links to parts of the website not yet migrated over (currently such as `Discuss`, `Profile`, `My Stuff`, etc.) will take you to the Scratch website itself.
